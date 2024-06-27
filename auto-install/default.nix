@@ -32,22 +32,21 @@
 
           					${utillinux}/bin/sfdisk --delete $dev
 										parted -s $dev -- mklabel gpt
-										parted -s $dev -- mkpart root ext4 512MB -8GB
-										parted -s $dev -- mkpart swap linux-swap -8GB 100%
+										parted -s $dev -- mkpart root ext4 512MB 100%
 										parted -s $dev -- mkpart ESP fat32 1MB 512MB
 										parted -s $dev -- set 3 esp on
 
 										mkfs.ext4 -L nixos "$dev"1
-										mkswap -L swap "$dev"2
-										mkfs.fat -F 32 -n boot "$dev"3
+										mkfs.fat -F 32 -n boot "$dev"2
 
 										mount /dev/disk/by-label/nixos /mnt
 										mkdir -p /mnt/boot
 										mount -o umask=077 /dev/disk/by-label/boot /mnt/boot
-										swapon "$dev"2
 
           					install -D ${./configuration.nix} /mnt/etc/nixos/configuration.nix
           					install -D ${./hardware-configuration.nix} /mnt/etc/nixos/hardware-configuration.nix
+          					install -D ${./vars.nix} /mnt/etc/nixos/vars.nix
+										install -D ${./operator/operator.yaml} /var/lib/rancher/k3s/server/manifests/home-cloud-operator.yaml
 
           					sed -i -E 's/(\w*)#installer-only /\1/' /mnt/etc/nixos/*
 

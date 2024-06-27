@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 {
   imports = [
     <nixpkgs/nixos/modules/profiles/all-hardware.nix>
@@ -9,38 +8,42 @@
   ];
 
   boot.loader.systemd-boot.enable = true;
-
   boot.bcache.enable = false;
 
+  # TODO-RC1: should this be true?
   security.sudo.wheelNeedsPassword = false;
 
   networking = {
+    # TODO-RC2: configure this at initial user setup (since nodes after the first shouldn't be home-cloud.local)
     hostName = config.vars.hostname;
     networkmanager.enable = true;
     wireless.enable = false;
 
     firewall = {
       enable = false;
-      # TODO: consider only opening certain ports (80, 443?) and setting `enable = true`
+      # TODO-RC1: consider only opening certain ports (80, 443, 8443?) and setting `enable = true`
       # allowedTCPPorts = [ ... ];
       # allowedUDPPorts = [ ... ];
     };
   };
 
+  # TODO-RC1: disable this
   services.openssh.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # TODO-RC2, configure this at initial user setup so it can be an agent instead of a server (or do we want HA?)
+  # ref: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/USAGE.md
+  services.k3s.enable = true;
+  services.k3s.role = "server";
+
+  # TODO-RC1: set password randomly during imaging or have the user set it during OOBE?
   users.users.admin = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-        tree
-    ];
-    openssh.authorizedKeys.keys = [];
+    packages = with pkgs; [ ];
+    openssh.authorizedKeys.keys = [ ];
   };
 
-
-  # TODO: select locale options through home-cloud server
+  # TODO-RC1: select locale options during OOBE
   # time.timeZone = "America/Chicago";
   # i18n.defaultLocale = "en_US.UTF-8";
   # console = {
@@ -49,14 +52,17 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
+  # TODO-RC2: don't enable this for non-primary devices?
+  # advertise hostname through mDNS
   services.avahi = {
     enable = true;
     ipv4 = true;
-    ipv6 = true;
+    ipv6 = false;
     nssmdns4 = true;
     publish = { enable = true; domain = true; addresses = true; };
   };
 
+  # TODO-RC1: slim these down to only the required ones when moving to RC1
   environment.systemPackages = with pkgs; [
     coreutils
     curl
