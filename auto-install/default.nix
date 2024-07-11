@@ -34,7 +34,7 @@
 										parted -s $dev -- mklabel gpt
 										parted -s $dev -- mkpart root ext4 512MB 100%
 										parted -s $dev -- mkpart ESP fat32 1MB 512MB
-										parted -s $dev -- set 3 esp on
+										parted -s $dev -- set 2 esp on
 
 										mkfs.ext4 -L nixos "$dev"1
 										mkfs.fat -F 32 -n boot "$dev"2
@@ -46,7 +46,8 @@
           					install -D ${./configuration.nix} /mnt/etc/nixos/configuration.nix
           					install -D ${./hardware-configuration.nix} /mnt/etc/nixos/hardware-configuration.nix
           					install -D ${./vars.nix} /mnt/etc/nixos/vars.nix
-										install -D ${./operator/operator.yaml} /var/lib/rancher/k3s/server/manifests/home-cloud-operator.yaml
+										install -D ${./operator/operator.yaml} /mnt/var/lib/rancher/k3s/server/manifests/home-cloud-operator.yaml
+										install -D ${./server/server.yaml} /mnt/var/lib/rancher/k3s/server/manifests/home-cloud-server.yaml
 
           					sed -i -E 's/(\w*)#installer-only /\1/' /mnt/etc/nixos/*
 

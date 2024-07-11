@@ -383,8 +383,6 @@ spec:
         runAsNonRoot: true
       serviceAccountName: home-cloud-controller-manager
       terminationGracePeriodSeconds: 10
-      imagePullSecrets:
-       - name: ghcr-login-secret
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
