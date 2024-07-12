@@ -351,9 +351,8 @@ spec:
         - --health-probe-bind-address=:8081
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
-        command:
-        - /manager
-        image: ghcr.io/home-cloud-io/operator:v0.0.2
+        image: ghcr.io/home-cloud-io/core-platform-operator:edge
+        imagePullPolicy: 'Always'
         livenessProbe:
           httpGet:
             path: /healthz
@@ -380,7 +379,8 @@ spec:
             drop:
             - ALL
       securityContext:
-        runAsNonRoot: true
+        # TODO: fix this so that it can be true
+        runAsNonRoot: false
       serviceAccountName: home-cloud-controller-manager
       terminationGracePeriodSeconds: 10
 ---

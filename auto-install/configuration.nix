@@ -32,8 +32,11 @@
 
   # TODO-RC2, configure this at initial user setup so it can be an agent instead of a server (or do we want HA?)
   # ref: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/USAGE.md
-  services.k3s.enable = true;
-  services.k3s.role = "server";
+  services.k3s = {
+    enable = true;
+    role = "server";
+    extraFlags = lib.concatStrings ["--tls-san " config.vars.hostname];
+  };
 
   # TODO-RC1: set password randomly during imaging or have the user set it during OOBE?
   users.users.admin = {

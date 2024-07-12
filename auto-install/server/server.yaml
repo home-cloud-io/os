@@ -62,8 +62,8 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/home-cloud-io/server:v0.0.2
-          imagePullPolicy: 'IfNotPresent'
+          image: ghcr.io/home-cloud-io/core-platform-server:edge
+          imagePullPolicy: 'Always'
           volumeMounts:
           - name: config
             mountPath: /etc/config.yaml
