@@ -10,6 +10,19 @@
   boot.loader.systemd-boot.enable = true;
   boot.bcache.enable = false;
 
+  systemd.services.shutdown-alert = {
+    enable = true;
+    description = "Shutdown Alert";
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStop = with pkgs;''
+        ${curl}/bin/curl --header "Content-Type: application/json" --data '{}' http://localhost:9000/platform.daemon.v1.HostService/ShutdownAlert
+      '';
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
+
   # TODO-RC1: should this be true?
   security.sudo.wheelNeedsPassword = false;
 
@@ -35,14 +48,13 @@
   services.k3s = {
     enable = true;
     role = "server";
-    extraFlags = lib.concatStrings ["--tls-san " config.vars.hostname];
+    extraFlags = lib.concatStrings ["--tls-san " config.vars.hostname ".local --disable traefik"];
   };
 
   # TODO-RC1: set password randomly during imaging or have the user set it during OOBE?
   users.users.admin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [ ];
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the admin user.
     openssh.authorizedKeys.keys = [ ];
   };
 
@@ -77,6 +89,7 @@
     openssl
     wget
     zip
+    nvd
   ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
