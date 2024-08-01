@@ -1,0 +1,9 @@
+service:
+  name: home-cloud-daemon
+  domain: platform
+  network:
+    port: 9000
+    bind_address: localhost
+
+daemon:
+  server: http://home-cloud.local

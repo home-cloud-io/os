@@ -1,4 +1,7 @@
 { config, lib, pkgs, ... }:
+let
+  home-cloud-daemon = import ./home-cloud/daemon/default.nix;
+in
 {
   imports = [
     <nixpkgs/nixos/modules/profiles/all-hardware.nix>
@@ -18,6 +21,20 @@
       RemainAfterExit = true;
       ExecStop = with pkgs;''
         ${curl}/bin/curl --header "Content-Type: application/json" --data '{}' http://localhost:9000/platform.daemon.v1.HostService/ShutdownAlert
+      '';
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
+
+  systemd.services.daemon = {
+    enable = true;
+    description = "Home Cloud Daemon";
+    after = [ "network.target" ];
+    serviceConfig = {
+      Environment = "DRAFT_CONFIG=/etc/home-cloud/config.yaml";
+      Restart = "always";
+      ExecStart = ''
+        ${home-cloud-daemon}/bin/daemon
       '';
     };
     wantedBy = [ "multi-user.target" ];
@@ -48,7 +65,7 @@
   services.k3s = {
     enable = true;
     role = "server";
-    extraFlags = lib.concatStrings ["--tls-san " config.vars.hostname ".local --disable traefik"];
+    extraFlags = lib.concatStrings [ "--tls-san " config.vars.hostname ".local --disable traefik" ];
   };
 
   # TODO-RC1: set password randomly during imaging or have the user set it during OOBE?
@@ -78,19 +95,21 @@
   };
 
   # TODO-RC1: slim these down to only the required ones when moving to RC1
-  environment.systemPackages = with pkgs; [
-    coreutils
-    curl
-    file
-    git
-    htop
-    lsof
-    nano
-    openssl
-    wget
-    zip
-    nvd
-  ];
+  environment.systemPackages =
+    [
+      home-cloud-daemon
+      pkgs.coreutils
+      pkgs.curl
+      pkgs.file
+      pkgs.git
+      pkgs.htop
+      pkgs.lsof
+      pkgs.nano
+      pkgs.openssl
+      pkgs.wget
+      pkgs.zip
+      pkgs.nvd
+    ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

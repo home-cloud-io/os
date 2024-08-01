@@ -1,4 +1,4 @@
-{ lib, buildGoModule, fetchFromGitHub }:
+with import <nixpkgs> {};
 
 buildGoModule rec {
   pname = "home-cloud-daemon";
