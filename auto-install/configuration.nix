@@ -13,6 +13,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.bcache.enable = false;
 
+  # TODO-RC1: this is either not triggering or is triggering after the daemon has already been killed
   systemd.services.shutdown-alert = {
     enable = true;
     description = "Shutdown Alert";
