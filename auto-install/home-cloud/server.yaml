@@ -63,3 +63,27 @@ spec:
       - name: config
         configMap:
           name: server
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: manage-home-cloud-apps
+  namespace: home-cloud-system
+rules:
+- apiGroups: ["home-cloud.io"]
+  resources: ["apps"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: manage-home-cloud-apps
+  namespace: home-cloud-system
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: home-cloud-system
+roleRef:
+  kind: Role
+  name: manage-home-cloud-apps
+  apiGroup: rbac.authorization.k8s.io
