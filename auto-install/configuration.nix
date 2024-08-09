@@ -73,7 +73,7 @@ in
   users.users.admin = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the admin user.
-    openssh.authorizedKeys.keys = [ ];
+    openssh.authorizedKeys.keys = [ "YOUR_SSH_PUBLIC_KEY" ];
   };
 
   # TODO-RC1: select locale options during OOBE
@@ -84,16 +84,6 @@ in
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
-
-  # TODO-RC2: don't enable this for non-primary devices?
-  # advertise hostname through mDNS
-  services.avahi = {
-    enable = true;
-    ipv4 = true;
-    ipv6 = false;
-    nssmdns4 = true;
-    publish = { enable = true; domain = true; addresses = true; };
-  };
 
   # TODO-RC1: slim these down to only the required ones when moving to RC1
   environment.systemPackages =

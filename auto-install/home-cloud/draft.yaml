@@ -17,6 +17,47 @@ spec:
     app: blueprint
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: blueprint
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/k8s-pvs/blueprint
+  claimRef:
+    namespace: draft-system
+    name: blueprint
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+              # TODO-RC2: set this to the hostname during boot
+              - home-cloud
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: blueprint
+  namespace: draft-system
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: blueprint
@@ -27,6 +68,9 @@ data:
       name: blueprint
       domain: core
       env: prod
+
+    badger:
+      path: /etc/badger/data
 
     raft:
       node-id: node_1
@@ -64,10 +108,15 @@ spec:
           - name: config
             mountPath: /etc/config.yaml
             subPath: config.yaml
+          - name: badger
+            mountPath: /etc/badger/data
       volumes:
       - name: config
         configMap:
           name: blueprint
+      - name: badger
+        persistentVolumeClaim:
+          claimName: blueprint
 # FUSE
 ---
 kind: Service
@@ -146,12 +195,7 @@ spec:
     targetPort: 10000
   selector:
     app: envoy
-  externalIPs:
-    # TODO: will this change?
-    # enabled local communication from daemon
-    - 10.42.0.1
-    # TODO: dynamically set this on boot
-    - 192.168.1.183
+  externalIPs: [ "10.42.0.1", "YOUR_HOME_CLOUD_IP" ]
 ---
 apiVersion: v1
 kind: ConfigMap

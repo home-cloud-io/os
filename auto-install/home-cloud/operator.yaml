@@ -378,6 +378,13 @@ spec:
           capabilities:
             drop:
             - ALL
+        env:
+          - name: DRAFT_SERVICE_ENTRYPOINT
+            value: http://blueprint.draft-system.svc.cluster.local:8090
+          - name: HOST_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
       securityContext:
         # TODO: fix this so that it can be true
         runAsNonRoot: false
