@@ -48,6 +48,7 @@
           					install -D ${./home-cloud/daemon/default.nix} /mnt/etc/nixos/home-cloud/daemon/default.nix
           					install -D ${./vars.nix} /mnt/etc/nixos/vars.nix
 										install -D ${./home-cloud/draft.yaml} /mnt/var/lib/rancher/k3s/server/manifests/draft.yaml
+										install -D ${./home-cloud/mdns.yaml} /mnt/var/lib/rancher/k3s/server/manifests/mdns.yaml
 										install -D ${./home-cloud/operator.yaml} /mnt/var/lib/rancher/k3s/server/manifests/operator.yaml
 										install -D ${./home-cloud/server.yaml} /mnt/var/lib/rancher/k3s/server/manifests/server.yaml
 										install -D ${./home-cloud/daemon/config.yaml} /mnt/etc/home-cloud/config.yaml
