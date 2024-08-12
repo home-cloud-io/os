@@ -52,7 +52,7 @@
 										install -D ${./home-cloud/server.yaml} /mnt/var/lib/rancher/k3s/server/manifests/server.yaml
 										install -D ${./home-cloud/daemon/config.yaml} /mnt/etc/home-cloud/config.yaml
 
-          					sed -i -E 's/(\w*)#installer-only /\1/' /mnt/etc/nixos/*
+          					sed -i -E 's/(\w*)#installer-only /\1/' /mnt/etc/nixos/configuration.nix
 
           					${config.system.build.nixos-install}/bin/nixos-install \
           						--system ${(import <nixpkgs/nixos/lib/eval-config.nix> {
