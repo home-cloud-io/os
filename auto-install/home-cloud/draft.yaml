@@ -195,7 +195,7 @@ spec:
     targetPort: 10000
   selector:
     app: envoy
-  externalIPs: [ "10.42.0.1", "YOUR_HOME_CLOUD_IP" ]
+  externalIPs: [ "10.42.0.1", "HOME_CLOUD_HOST_IP" ]
 ---
 apiVersion: v1
 kind: ConfigMap

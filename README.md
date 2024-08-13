@@ -27,9 +27,5 @@ nix-build
 
 6. It will take a while to install and will shutdown when it's finished.
 
-7. After turning on the system, SSH into it with `ssh admin@home-cloud.local`
-
-8. In `/var/lib/rancher/k3s/server/manifests/draft.yaml` replace `YOUR_HOME_CLOUD_IP` with the IP address of the home-cloud box.
-
 
 Special thanks to [Andrei Volt](https://gitlab.com/andreivolt/nixos-auto-install) for his initial work on this. We have adapted his effort for this use case.
