@@ -32,8 +32,13 @@ in
     description = "Home Cloud Daemon";
     after = [ "network.target" ];
     serviceConfig = {
-      Environment = "DRAFT_CONFIG=/etc/home-cloud/config.yaml";
+      Environment = [
+        "DRAFT_CONFIG=/etc/home-cloud/config.yaml"
+        "NIX_PATH=/root/.nix-defexpr/channels:nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels"
+        "PATH=/run/current-system/sw/bin"
+      ];
       Restart = "always";
+      WorkingDirectory = "/root";
       ExecStart = ''
         ${home-cloud-daemon}/bin/daemon
       '';
