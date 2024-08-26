@@ -101,8 +101,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/home-cloud-io/core-platform-server:edge
-          imagePullPolicy: 'Always'
+          image: ghcr.io/home-cloud-io/core-platform-server:v0.0.2
           ports:
           - containerPort: 8090
           volumeMounts:

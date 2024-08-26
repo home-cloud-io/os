@@ -329,7 +329,7 @@ spec:
         - --upstream=http://127.0.0.1:8080/
         - --logtostderr=true
         - --v=0
-        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.15.0
+        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.16.0
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443
@@ -351,8 +351,7 @@ spec:
         - --health-probe-bind-address=:8081
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
-        image: ghcr.io/home-cloud-io/core-platform-operator:edge
-        imagePullPolicy: 'Always'
+        image: ghcr.io/home-cloud-io/core-platform-operator:v0.0.2
         livenessProbe:
           httpGet:
             path: /healthz

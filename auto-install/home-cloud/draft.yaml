@@ -79,7 +79,7 @@ data:
       bootstrap: true
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: blueprint
   namespace: draft-system
@@ -95,8 +95,7 @@ spec:
     spec:
       containers:
         - name: blueprint
-          image: ghcr.io/steady-bytes/draft-core-blueprint:edge
-          imagePullPolicy: 'Always'
+          image: ghcr.io/steady-bytes/draft-core-blueprint:v0.0.1
           ports:
             - name: grpc
               containerPort: 8090
@@ -167,8 +166,7 @@ spec:
     spec:
       containers:
         - name: fuse
-          image: ghcr.io/steady-bytes/draft-core-fuse:edge
-          imagePullPolicy: 'Always'
+          image: ghcr.io/steady-bytes/draft-core-fuse:v0.0.1
           ports:
             - name: grpc
               containerPort: 8090

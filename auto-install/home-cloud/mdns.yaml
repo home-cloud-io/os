@@ -72,13 +72,7 @@ spec:
       serviceAccountName: mdns
       containers:
         - name: mdns
-          imagePullPolicy: 'Always'
-          securityContext:
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop: ['ALL']
-          image: ghcr.io/home-cloud-io/core-platform-mdns:edge
+          image: ghcr.io/home-cloud-io/core-platform-mdns:v0.0.2
           env:
             - name: HOST_IP
               valueFrom:
@@ -86,6 +80,11 @@ spec:
                   fieldPath: status.hostIP
             - name: HOST_NAME
               value: home-cloud
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ['ALL']
           volumeMounts:
             - name: config
               mountPath: /etc/config.yaml
