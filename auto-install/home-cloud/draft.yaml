@@ -84,6 +84,7 @@ metadata:
   name: blueprint
   namespace: draft-system
 spec:
+  serviceName: blueprint
   replicas: 1
   selector:
     matchLabels:
