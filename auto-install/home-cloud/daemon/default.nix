@@ -2,8 +2,8 @@ with import <nixpkgs> {};
 
 buildGoModule rec {
   pname = "home-cloud-daemon";
-  version = "0.0.9";
-  vendorHash = "sha256-lSe0P/nqCnRvP6nUZG5d9oXQ0Q+hKet1v0rhTrtapx4=";
+  version = "0.0.10";
+  vendorHash = "sha256-5pSbjCEkUdTdKT5/YzghQTn5lFxGTj5pWe20Umzx8F4=";
 
   meta = with lib; {
     description = "Home Cloud Host Daemon";
@@ -17,6 +17,6 @@ buildGoModule rec {
     owner = "home-cloud-io";
     repo = "core";
     rev = "services/platform/daemon/v${version}";
-    hash = "sha256-L6Y2hAsVHU6bYvYNsxpH5xIU6eBRzkLg9eoFZjJK4Y0=";
+    hash = "sha256-xYibOxlj+zCLrqG+ZMYs2LCKvnf8APncpDJZqDZ5uK8=";
   } + "/services/platform/daemon";
 }
