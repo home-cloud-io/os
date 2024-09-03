@@ -58,7 +58,7 @@ in
 
     firewall = {
       enable = false;
-      # TODO-RC1: consider only opening certain ports (80, 443, 8443?) and setting `enable = true`
+      # TODO-RC2: consider only opening certain ports (80, 443, 8443?) and setting `enable = true`
       # allowedTCPPorts = [ ... ];
       # allowedUDPPorts = [ ... ];
     };
@@ -69,8 +69,8 @@ in
     domains = [ "local" ];
   };
 
-  # TODO-RC1: disable this
-  services.openssh.enable = true;
+  # NOTE: enable this for local dev
+  # services.openssh.enable = true;
 
   # TODO-RC2, configure this at initial user setup so it can be an agent instead of a server (or do we want HA?)
   # ref: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/USAGE.md
@@ -80,29 +80,23 @@ in
     extraFlags = lib.concatStrings [ "--tls-san " config.vars.hostname ".local --disable traefik --service-node-port-range 80-32767" ];
   };
 
-  # NOTE: password will be set by user during OOBE
+  # NOTE: the admin password is set by user during OOBE
   users.users.admin = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # enable sudo
     openssh.authorizedKeys.keys = config.secrets.sshKeys;
   };
 
+  # NOTE: this is set by user during OOBE
   time.timeZone = "Etc/UTC";
 
-  # TODO-RC1: slim these down to only the required ones when moving to RC1
   environment.systemPackages =
     [
       home-cloud-daemon
       pkgs.coreutils
       pkgs.curl
-      pkgs.file
-      pkgs.git
-      pkgs.htop
-      pkgs.lsof
       pkgs.nano
       pkgs.openssl
-      pkgs.wget
-      pkgs.zip
       pkgs.nvd
     ];
 
