@@ -188,13 +188,13 @@ metadata:
   name: envoy
   namespace: draft-system
 spec:
+  type: NodePort
   ports:
-  - name: http
-    port: 80
-    targetPort: 10000
+    - port: 10000
+      targetPort: 10000
+      nodePort: 80
   selector:
     app: envoy
-  externalIPs: [ "10.42.0.1", "HOME_CLOUD_HOST_IP" ]
 ---
 apiVersion: v1
 kind: ConfigMap

@@ -54,6 +54,7 @@ in
     hostName = config.vars.hostname;
     networkmanager.enable = true;
     wireless.enable = false;
+    domain = "local";
 
     firewall = {
       enable = false;
@@ -61,6 +62,11 @@ in
       # allowedTCPPorts = [ ... ];
       # allowedUDPPorts = [ ... ];
     };
+  };
+
+  services.resolved = {
+    enable = true;
+    domains = [ "local" ];
   };
 
   # TODO-RC1: disable this
