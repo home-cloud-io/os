@@ -77,7 +77,7 @@ in
   services.k3s = {
     enable = true;
     role = "server";
-    extraFlags = lib.concatStrings [ "--tls-san " config.vars.hostname ".local --disable traefik" ];
+    extraFlags = lib.concatStrings [ "--tls-san " config.vars.hostname ".local --disable traefik --service-node-port-range 80-32767" ];
   };
 
   # TODO-RC1: set password randomly during imaging or have the user set it during OOBE?
@@ -87,14 +87,7 @@ in
     openssh.authorizedKeys.keys = [ "YOUR_SSH_PUBLIC_KEY" ];
   };
 
-  # TODO-RC1: select locale options during OOBE
-  # time.timeZone = "America/Chicago";
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
+  time.timeZone = "Etc/UTC";
 
   # TODO-RC1: slim these down to only the required ones when moving to RC1
   environment.systemPackages =
