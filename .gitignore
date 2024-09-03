@@ -1,2 +1,3 @@
 result*
 hardware-configuration.nix
+secrets.nix

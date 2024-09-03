@@ -9,15 +9,19 @@ Steps to use:
 1. Copy over the hardware configuration of your choice. For example:
 
 ```shell
-cp auto-install/hardware/beelink-s12-n100.nix auto-install/hardware-configuration.nix
+cd auto-install
+cp hardware/beelink-s12-n100.nix auto-install/hardware-configuration.nix
 ```
 
-2. In `auto-install/configuration.nix` replace `YOUR_SSH_PUBLIC_KEY` with your SSH public key.
+2. Copy the example secrets file and add any values you want to override the defaults with.
+
+```shell
+cp secrets.nix.example secrets.nix
+```
 
 3. Compile the ISO:
 
 ```shell
-cd auto-install
 nix-build
 ```
 

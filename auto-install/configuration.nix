@@ -7,25 +7,26 @@ in
     <nixpkgs/nixos/modules/profiles/all-hardware.nix>
     <nixpkgs/nixos/modules/profiles/base.nix>
     ./vars.nix
+    ./secrets.nix
     #installer-only ./hardware-configuration.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.bcache.enable = false;
 
-  # TODO-RC1: this is either not triggering or is triggering after the daemon has already been killed
-  systemd.services.shutdown-alert = {
-    enable = true;
-    description = "Shutdown Alert";
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStop = with pkgs;''
-        ${curl}/bin/curl --header "Content-Type: application/json" --data '{}' http://localhost:9000/platform.daemon.v1.HostService/ShutdownAlert
-      '';
-    };
-    wantedBy = [ "multi-user.target" ];
-  };
+  # TODO-RC2: this is either not triggering or is triggering after the daemon has already been killed
+  # systemd.services.shutdown-alert = {
+  #   enable = true;
+  #   description = "Shutdown Alert";
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     RemainAfterExit = true;
+  #     ExecStop = with pkgs;''
+  #       ${curl}/bin/curl --header "Content-Type: application/json" --data '{}' http://localhost:9000/platform.daemon.v1.HostService/ShutdownAlert
+  #     '';
+  #   };
+  #   wantedBy = [ "multi-user.target" ];
+  # };
 
   systemd.services.daemon = {
     enable = true;
@@ -46,8 +47,7 @@ in
     wantedBy = [ "multi-user.target" ];
   };
 
-  # TODO-RC1: should this be true?
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = true;
 
   networking = {
     # TODO-RC2: configure this at initial user setup (since nodes after the first shouldn't be home-cloud.local)
@@ -80,11 +80,11 @@ in
     extraFlags = lib.concatStrings [ "--tls-san " config.vars.hostname ".local --disable traefik --service-node-port-range 80-32767" ];
   };
 
-  # TODO-RC1: set password randomly during imaging or have the user set it during OOBE?
+  # NOTE: password will be set by user during OOBE
   users.users.admin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the admin user.
-    openssh.authorizedKeys.keys = [ "YOUR_SSH_PUBLIC_KEY" ];
+    extraGroups = [ "wheel" ]; # enable sudo
+    openssh.authorizedKeys.keys = config.secrets.sshKeys;
   };
 
   time.timeZone = "Etc/UTC";
