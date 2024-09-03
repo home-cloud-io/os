@@ -26,9 +26,8 @@
           						done
           					}
 
-          					dev=/dev/sda
-          					[ -b /dev/nvme0n1 ] && dev=/dev/nvme0n1
-          					[ -b /dev/vda ] && dev=/dev/vda
+										# TODO: make this compatible with other drive types (e.g. sda, vda, etc.)
+          					dev=/dev/nvme0n1
 
           					${utillinux}/bin/sfdisk --delete $dev
 										parted -s $dev -- mklabel gpt
@@ -36,8 +35,8 @@
 										parted -s $dev -- mkpart ESP fat32 1MB 512MB
 										parted -s $dev -- set 2 esp on
 
-										mkfs.ext4 -L nixos "$dev"1
-										mkfs.fat -F 32 -n boot "$dev"2
+										mkfs.ext4 -L nixos "$dev"p1
+										mkfs.fat -F 32 -n boot "$dev"p2
 
 										mount /dev/disk/by-label/nixos /mnt
 										mkdir -p /mnt/boot
