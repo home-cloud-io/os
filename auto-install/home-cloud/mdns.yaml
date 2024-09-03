@@ -72,7 +72,7 @@ spec:
       serviceAccountName: mdns
       containers:
         - name: mdns
-          image: ghcr.io/home-cloud-io/core-platform-mdns:v0.0.2
+          image: ghcr.io/home-cloud-io/core-platform-mdns:v0.0.3
           env:
             - name: HOST_IP
               valueFrom:

@@ -96,7 +96,7 @@ spec:
     spec:
       containers:
         - name: blueprint
-          image: ghcr.io/steady-bytes/draft-core-blueprint:v0.0.1
+          image: ghcr.io/steady-bytes/draft-core-blueprint:v0.0.2
           ports:
             - name: grpc
               containerPort: 8090
@@ -167,7 +167,7 @@ spec:
     spec:
       containers:
         - name: fuse
-          image: ghcr.io/steady-bytes/draft-core-fuse:v0.0.1
+          image: ghcr.io/steady-bytes/draft-core-fuse:v0.0.2
           ports:
             - name: grpc
               containerPort: 8090
