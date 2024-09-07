@@ -90,9 +90,25 @@ in
   # NOTE: this is set by user during OOBE
   time.timeZone = "Etc/UTC";
 
+
+  # TODO-RC3: need to make sure the hostname is unique for multiple devices
+  services.avahi = {
+    enable = true;
+    ipv4 = true;
+    ipv6 = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      domain = true;
+      addresses = true;
+      userServices = true;
+    };
+  };
+
   environment.systemPackages =
     [
       home-cloud-daemon
+      pkgs.avahi
       pkgs.coreutils
       pkgs.curl
       pkgs.nano
