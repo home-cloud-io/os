@@ -26,8 +26,27 @@
           						done
           					}
 
-										# TODO: make this compatible with other drive types (e.g. sda, vda, etc.)
-          					dev=/dev/nvme0n1
+										disks=$(lsblk -l -n -o NAME)
+										echo $disks
+										if [[ " $disks[*] " =~ [[:space:]]"nvme0n1"[[:space:]] ]]; then
+												dev="/dev/nvme0n1"
+										elif [[ " $disks[*] " =~ [[:space:]]"sda"[[:space:]] ]]; then
+												dev="/dev/sda"
+										elif [[ " $disks[*] " =~ [[:space:]]"vda"[[:space:]] ]]; then
+												dev="/dev/vda"
+										else
+												echo "no valid device found"
+												exit 1
+										fi
+										echo "using drive: $dev"
+
+										part1=$dev"1"
+										part2=$dev"2"
+										if [ "$dev" = "/dev/nvme0n1" ]; then
+												part1=$dev"p1"
+												part2=$dev"p2"
+										fi
+										echo "parts: $part1 $part2"
 
           					${utillinux}/bin/sfdisk --delete $dev
 										parted -s $dev -- mklabel gpt
@@ -35,8 +54,8 @@
 										parted -s $dev -- mkpart ESP fat32 1MB 512MB
 										parted -s $dev -- set 2 esp on
 
-										mkfs.ext4 -L nixos "$dev"p1
-										mkfs.fat -F 32 -n boot "$dev"p2
+										mkfs.ext4 -L nixos "$part1"
+										mkfs.fat -F 32 -n boot "$part2"
 
 										mount /dev/disk/by-label/nixos /mnt
 										mkdir -p /mnt/boot
@@ -44,8 +63,9 @@
 
           					install -D ${./configuration.nix} /mnt/etc/nixos/configuration.nix
           					install -D ${./hardware-configuration.nix} /mnt/etc/nixos/hardware-configuration.nix
-          					install -D ${./home-cloud/daemon/default.nix} /mnt/etc/nixos/home-cloud/daemon/default.nix
           					install -D ${./vars.nix} /mnt/etc/nixos/vars.nix
+          					install -D ${./secrets.nix} /mnt/etc/nixos/secrets.nix
+          					install -D ${./home-cloud/daemon/default.nix} /mnt/etc/nixos/home-cloud/daemon/default.nix
 										install -D ${./home-cloud/draft.yaml} /mnt/var/lib/rancher/k3s/server/manifests/draft.yaml
 										install -D ${./home-cloud/mdns.yaml} /mnt/var/lib/rancher/k3s/server/manifests/mdns.yaml
 										install -D ${./home-cloud/operator.yaml} /mnt/var/lib/rancher/k3s/server/manifests/operator.yaml
