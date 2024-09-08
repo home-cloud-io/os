@@ -7,3 +7,5 @@ service:
 
 daemon:
   server: http://home-cloud.local
+  domain: local
+  hostnames: []

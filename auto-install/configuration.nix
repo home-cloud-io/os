@@ -39,6 +39,7 @@ in
         "PATH=/run/current-system/sw/bin"
       ];
       Restart = "always";
+      RestartSec = 3;
       WorkingDirectory = "/root";
       ExecStart = ''
         ${home-cloud-daemon}/bin/daemon
@@ -47,7 +48,7 @@ in
     wantedBy = [ "multi-user.target" ];
   };
 
-  security.sudo.wheelNeedsPassword = true;
+  security.sudo.wheelNeedsPassword = false;
 
   networking = {
     # TODO-RC2: configure this at initial user setup (since nodes after the first shouldn't be home-cloud.local)
