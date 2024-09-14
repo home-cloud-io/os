@@ -50,9 +50,9 @@ in
   systemd.services.uncordon-node = {
     enable = true;
     description = "Uncordon Node";
+    after = [ "k3s.service" ];
     serviceConfig = {
       Type = "oneshot";
-      RemainAfterExit = true;
       ExecStart = with pkgs;''
         ${k3s}/bin/k3s kubectl uncordon ${config.vars.hostname}
       '';
@@ -124,7 +124,6 @@ in
 
   # NOTE: this is set by user during OOBE
   time.timeZone = "Etc/UTC";
-
 
   # TODO-RC3: need to make sure the hostname is unique for multiple devices
   services.avahi = {
