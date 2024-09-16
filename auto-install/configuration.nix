@@ -14,7 +14,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.bcache.enable = false;
 
-  # TODO-RC2: this is either not triggering or is triggering after the daemon has already been killed
+  # TODO: this is either not triggering or is triggering after the daemon has already been killed
   # systemd.services.shutdown-alert = {
   #   enable = true;
   #   description = "Shutdown Alert";
@@ -28,39 +28,41 @@ in
   #   wantedBy = [ "multi-user.target" ];
   # };
 
+  # TODO-RC3: these needs further testing
   # This service drains the node right before shutdown to make sure things have a chance to gracefully shutdown.
   # It also avoid the 90sec wait for containers to shutdown if you don't tell them to directly, speeding up shutdowns.
-  systemd.services.drain-node = {
-    enable = true;
-    description = "Drain Node";
-    before = [ "shutdown.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = with pkgs;''
-        ${k3s}/bin/k3s kubectl drain ${config.vars.hostname} --delete-emptydir-data=true --force=true
-      '';
-      Restart = "on-failure";
-      RestartSec = 3;
-    };
-    wantedBy = [ "halt.target" "reboot.target" "shutdown.target" ];
-  };
+  # systemd.services.drain-node = {
+  #   enable = true;
+  #   description = "Drain Node";
+  #   before = [ "shutdown.target" "umount.target" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     ExecStart = with pkgs;''
+  #       ${k3s}/bin/k3s kubectl drain ${config.vars.hostname} --delete-emptydir-data=true --force=true
+  #     '';
+  #     Restart = "on-failure";
+  #     RestartSec = 3;
+  #   };
+  #   wantedBy = [ "shutdown.target" ];
+  # };
 
+  # TODO-RC3: these needs further testing
   # This service uncordons the node at boot since the node is automatically cordoned when drained during shutdown.
   # This makes sure pods can be rescheduled on the node every time it boots up.
-  systemd.services.uncordon-node = {
-    enable = true;
-    description = "Uncordon Node";
-    after = [ "k3s.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = with pkgs;''
-        ${k3s}/bin/k3s kubectl uncordon ${config.vars.hostname}
-      '';
-      Restart = "on-failure";
-      RestartSec = 3;
-    };
-    wantedBy = [ "multi-user.target" ];
-  };
+  # systemd.services.uncordon-node = {
+  #   enable = true;
+  #   description = "Uncordon Node";
+  #   after = [ "k3s.service" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     ExecStart = with pkgs;''
+  #       ${k3s}/bin/k3s kubectl uncordon ${config.vars.hostname}
+  #     '';
+  #     Restart = "on-failure";
+  #     RestartSec = 3;
+  #   };
+  #   wantedBy = [ "multi-user.target" ];
+  # };
 
   # This service runs the Home Cloud Daemon at boot.
   systemd.services.daemon = {
@@ -84,7 +86,7 @@ in
   };
 
   networking = {
-    # TODO-RC2: configure this at initial user setup (since nodes after the first shouldn't be home-cloud.local)
+    # TODO-RC3: configure this at initial user setup (since nodes after the first shouldn't be home-cloud.local)
     hostName = config.vars.hostname;
     networkmanager.enable = true;
     wireless.enable = false;
@@ -106,7 +108,7 @@ in
   # NOTE: enable this for local dev
   # services.openssh.enable = true;
 
-  # TODO-RC2, configure this at initial user setup so it can be an agent instead of a server (or do we want HA?)
+  # TODO-RC3, configure this at initial user setup so it can be an agent instead of a server (or do we want HA?)
   # ref: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/USAGE.md
   services.k3s = {
     enable = true;
