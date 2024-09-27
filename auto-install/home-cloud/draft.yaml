@@ -294,7 +294,7 @@ spec:
     spec:
       containers:
         - name: envoy
-          image: envoyproxy/envoy:v1.31.0
+          image: envoyproxy/envoy:v1.31.2
           imagePullPolicy: 'IfNotPresent'
           ports:
             - name: proxy
