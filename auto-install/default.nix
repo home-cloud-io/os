@@ -46,7 +46,9 @@
 												part2=$dev"p2"
 										fi
 
+										set +e
           					${utillinux}/bin/sfdisk --delete $dev
+										set -e
 										parted -s $dev -- mklabel gpt
 										parted -s $dev -- mkpart root ext4 512MB 100%
 										parted -s $dev -- mkpart ESP fat32 1MB 512MB
