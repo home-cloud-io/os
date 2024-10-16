@@ -167,7 +167,7 @@ spec:
     spec:
       containers:
         - name: fuse
-          image: ghcr.io/steady-bytes/draft-core-fuse:v0.0.2
+          image: ghcr.io/steady-bytes/draft-core-fuse:v0.0.3
           ports:
             - name: grpc
               containerPort: 8090
