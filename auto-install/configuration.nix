@@ -7,7 +7,6 @@ in
     <nixpkgs/nixos/modules/profiles/all-hardware.nix>
     <nixpkgs/nixos/modules/profiles/base.nix>
     ./vars.nix
-    ./secrets.nix
     #installer-only ./hardware-configuration.nix
   ];
 
@@ -121,7 +120,7 @@ in
   users.users.admin = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # enable sudo
-    openssh.authorizedKeys.keys = config.secrets.sshKeys;
+    openssh.authorizedKeys.keys = [];
   };
 
   # NOTE: this is set by user during OOBE
