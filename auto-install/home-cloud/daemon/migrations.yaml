@@ -1,0 +1,5 @@
+migrations:
+    - id: 60fbc7c6-9388-4c33-9a02-4da87de5ba6d
+      name: Grant server read permissions on all cluster resources
+      timestamp: 2024-10-24T17:07:27.847537975-05:00
+      error: ""
