@@ -65,6 +65,7 @@
           					install -D ${./hardware-configuration.nix} /mnt/etc/nixos/hardware-configuration.nix
           					install -D ${./vars.nix} /mnt/etc/nixos/vars.nix
           					install -D ${./home-cloud/daemon/default.nix} /mnt/etc/nixos/home-cloud/daemon/default.nix
+          					install -D ${./home-cloud/daemon/migrations.yaml} /mnt/etc/nixos/home-cloud/daemon/migrations.yaml
 										install -D ${./home-cloud/draft.yaml} /mnt/var/lib/rancher/k3s/server/manifests/draft.yaml
 										install -D ${./home-cloud/operator.yaml} /mnt/var/lib/rancher/k3s/server/manifests/operator.yaml
 										install -D ${./home-cloud/server.yaml} /mnt/var/lib/rancher/k3s/server/manifests/server.yaml
