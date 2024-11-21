@@ -2,10 +2,10 @@
 with lib;
 {
   options.vars = {
-    hostname = mkOption {
+    root = mkOption {
       type = types.str;
-      default = "home-cloud";
-      description = "The hostname of the device.";
+      default = "";
+      description = "";
     };
   };
 }
