@@ -4,7 +4,7 @@ with lib;
   options.vars = {
     root = mkOption {
       type = types.str;
-      default = "";
+      default = "/etc/nixos";
       description = "";
     };
   };
