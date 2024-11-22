@@ -47,8 +47,6 @@ in
       pkgs.nano
       pkgs.openssl
       pkgs.nvd
-      # pkgs.wireguard
-      # pkgs.wireguard-tools
     ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
