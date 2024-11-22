@@ -1,15 +1,14 @@
 {
   "resolved": {
     "enable": true,
-    "domains": ["local"]
+    "domains": [
+      "local"
+    ]
   },
   "k3s": {
     "enable": true,
     "role": "server",
     "extraFlags": "--tls-san home-cloud.local --disable traefik --service-node-port-range 80-32767"
-  },
-  "openssh": {
-    "enable": true
   },
   "avahi": {
     "enable": true,
