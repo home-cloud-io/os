@@ -64,6 +64,12 @@
           					install -D ${./configuration.nix} /mnt/etc/nixos/configuration.nix
           					install -D ${./hardware-configuration.nix} /mnt/etc/nixos/hardware-configuration.nix
           					install -D ${./vars.nix} /mnt/etc/nixos/vars.nix
+          					install -D ${./config/boot.json} /mnt/etc/nixos/config/boot.json
+          					install -D ${./config/networking.json} /mnt/etc/nixos/config/networking.json
+          					install -D ${./config/security.json} /mnt/etc/nixos/config/security.json
+          					install -D ${./config/services.json} /mnt/etc/nixos/config/services.json
+          					install -D ${./config/time.json} /mnt/etc/nixos/config/time.json
+          					install -D ${./config/users.json} /mnt/etc/nixos/config/users.json
           					install -D ${./home-cloud/daemon/default.nix} /mnt/etc/nixos/home-cloud/daemon/default.nix
           					install -D ${./home-cloud/daemon/migrations.yaml} /mnt/etc/nixos/home-cloud/daemon/migrations.yaml
 										install -D ${./home-cloud/draft.yaml} /mnt/var/lib/rancher/k3s/server/manifests/draft.yaml
