@@ -1,0 +1,10 @@
+{
+  "loader": {
+    "systemd-boot": {
+      "enable": true
+    }
+  },
+  "bcache": {
+    "enable": false
+  }
+}

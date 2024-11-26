@@ -1,0 +1,17 @@
+{
+  "hostName": "home-cloud",
+  "domain": "local",
+  "networkmanager": {
+    "enable": true
+  },
+  "wireless": {
+    "enable": false
+  },
+  "firewall": {
+    "enable": false
+  },
+  "nat": {
+    "enable": false
+  },
+  "wireguard": {}
+}

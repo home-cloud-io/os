@@ -3,3 +3,7 @@ migrations:
       name: Grant server read permissions on all cluster resources
       timestamp: 2024-10-24T17:07:27.847537975-05:00
       error: ""
+    - id: 386e797e-4bf8-4a58-bb34-45edba27e8e5
+      name: Convert .nix configuration to mostly .json config files
+      timestamp: 2024-11-22T12:39:43.248123762-06:00
+      error: ""
