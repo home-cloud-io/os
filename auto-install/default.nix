@@ -63,7 +63,7 @@
 
           					install -D ${./configuration.nix} /mnt/etc/nixos/configuration.nix
           					install -D ${./hardware-configuration.nix} /mnt/etc/nixos/hardware-configuration.nix
-          					install -D ${./vars.nix} /mnt/etc/nixos/vars.nix
+          					install -D ${./vars.install.nix} /mnt/etc/nixos/vars.nix
           					install -D ${./config/boot.json} /mnt/etc/nixos/config/boot.json
           					install -D ${./config/networking.json} /mnt/etc/nixos/config/networking.json
           					install -D ${./config/security.json} /mnt/etc/nixos/config/security.json
