@@ -17,6 +17,7 @@
 
           					set -eux
 
+										echo "wait for everything to be ready"
           					wait-for() {
           						for _ in seq 10; do
           							if $@; then
@@ -26,25 +27,10 @@
           						done
           					}
 
-										disks=" $(lsblk -l -n -o NAME) "
-										dev=""
-										if [[ " $disks[*] " =~ [[:space:]]"nvme0n1"[[:space:]] ]]; then
-												dev="/dev/nvme0n1"
-										elif [[ "$dev" == "" ]] && [[ " $disks[*] " =~ [[:space:]]"sda"[[:space:]] ]]; then
-												dev="/dev/sda"
-										elif [[ "$dev" == "" ]] && [[ " $disks[*] " =~ [[:space:]]"vda"[[:space:]] ]]; then
-												dev="/dev/vda"
-										else
-												echo "no valid device found"
-												exit 1
-										fi
-
-										part1=$dev"1"
-										part2=$dev"2"
-										if [[ "$dev" == "/dev/nvme0n1" ]]; then
-												part1=$dev"p1"
-												part2=$dev"p2"
-										fi
+										echo "configuring OS drive"
+										dev="/dev/nvme0n1"
+										part1=$dev"p1"
+										part2=$dev"p2"
 
 										set +e
           					${utillinux}/bin/sfdisk --delete $dev
@@ -60,6 +46,20 @@
 										mount /dev/disk/by-label/nixos /mnt
 										mkdir -p /mnt/boot
 										mount -o umask=077 /dev/disk/by-label/boot /mnt/boot
+
+										echo "configuring data drive"
+										dev="/dev/sda"
+										part1=$dev"1"
+
+										set +e
+          					${utillinux}/bin/sfdisk --delete $dev
+										set -e
+										parted -s $dev -- mklabel gpt
+										parted -s $dev -- mkpart root ext4 1 100%
+
+										mkfs.ext4 -L data "$part1"
+
+										mkdir -p /mnt/mnt/k8s-pvs
 
           					install -D ${./configuration.nix} /mnt/etc/nixos/configuration.nix
           					install -D ${./hardware-configuration.nix} /mnt/etc/nixos/hardware-configuration.nix

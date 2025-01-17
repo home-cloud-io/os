@@ -101,7 +101,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/home-cloud-io/core-platform-server:v0.0.42
+          image: ghcr.io/home-cloud-io/core-platform-server:v0.0.46
           ports:
           - containerPort: 8090
           volumeMounts:
