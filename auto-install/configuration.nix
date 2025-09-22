@@ -11,6 +11,7 @@ in
   ];
 
   boot = lib.importJSON (lib.concatStrings [ config.vars.root "/config/boot.json" ]);
+  nix = lib.importJSON (lib.concatStrings [ config.vars.root "/config/nix.json" ]);
   networking = lib.importJSON (lib.concatStrings [ config.vars.root "/config/networking.json" ]);
   services = lib.importJSON (lib.concatStrings [ config.vars.root "/config/services.json" ]);
   time = lib.importJSON (lib.concatStrings [ config.vars.root "/config/time.json" ]);
@@ -48,8 +49,6 @@ in
       pkgs.openssl
       pkgs.nvd
     ];
-
-  system.defaultChannel = "https://channels.nixos.org/nixos-24.11";
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
