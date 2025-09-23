@@ -96,7 +96,7 @@ spec:
     spec:
       containers:
         - name: blueprint
-          image: ghcr.io/steady-bytes/draft-core-blueprint:v0.0.4
+          image: ghcr.io/steady-bytes/draft-core-blueprint:v0.0.6
           ports:
             - name: grpc
               containerPort: 8090
@@ -167,7 +167,7 @@ spec:
     spec:
       containers:
         - name: fuse
-          image: ghcr.io/steady-bytes/draft-core-fuse:v0.0.4
+          image: ghcr.io/steady-bytes/draft-core-fuse:v0.0.6
           ports:
             - name: grpc
               containerPort: 8090
@@ -294,7 +294,7 @@ spec:
     spec:
       containers:
         - name: envoy
-          image: envoyproxy/envoy:v1.33.0
+          image: envoyproxy/envoy:v1.35.3
           imagePullPolicy: 'IfNotPresent'
           ports:
             - name: proxy
