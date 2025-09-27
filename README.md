@@ -22,7 +22,7 @@ cp vars.install.nix vars.nix
 3. Compile the ISO:
 
 ```shell
-nix-build
+nix-build -I nixpkgs=channel:nixos-25.05
 ```
 
 4. Flash the generated `.iso` file to a USB drive using a tool like [Rufus](https://rufus.ie/en/) or [Balena Etcher](https://etcher.balena.io/).

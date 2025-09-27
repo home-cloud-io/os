@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: istio-base
+  namespace: kube-system
+spec:
+  repo: https://istio-release.storage.googleapis.com/charts
+  chart: base
+  targetNamespace: istio-system
+  version: 1.27.1
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: istio-istiod
+  namespace: kube-system
+spec:
+  repo: https://istio-release.storage.googleapis.com/charts
+  chart: istiod
+  targetNamespace: istio-system
+  version: 1.27.1
+  valuesContent: |-
+    profile: ambient
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: istio-cni
+  namespace: kube-system
+spec:
+  repo: https://istio-release.storage.googleapis.com/charts
+  chart: cni
+  targetNamespace: istio-system
+  version: 1.27.1
+  valuesContent: |-
+    profile: ambient
+    global:
+      platform: k3s
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: istio-ztunnel
+  namespace: kube-system
+spec:
+  repo: https://istio-release.storage.googleapis.com/charts
+  chart: ztunnel
+  targetNamespace: istio-system
+  version: 1.27.1
+# ingress gateway
+# TODO: figure out gateway as *.home-cloud.local with routes as sub domains
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: ingress-gateway
+  namespace: istio-system
+spec:
+  gatewayClassName: istio
+  listeners:
+  # TODO: add https listener with self-signed cert provisioned by home-cloud server
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        # TODO: restrict this with a label selector?
+        from: All
+# default route to home-cloud server
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: home-cloud
+  namespace: home-cloud-system
+spec:
+  parentRefs:
+  - name: ingress-gateway
+    namespace: istio-system
+  hostnames: ["home-cloud.local"]
+  rules:
+  - backendRefs:
+    - name: server
+      port: 8090

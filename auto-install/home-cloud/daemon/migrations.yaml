@@ -11,3 +11,15 @@ migrations:
       name: Add a nix.json config file which enables automatic, weekly garbage collection
       timestamp: 2025-04-13T22:38:15.902903663-05:00
       error: ""
+    - id: 51af2d46-e8e1-4d6f-a578-ea8d62dda7f5
+      name: Upgrade NixOS to the 25.05 channel
+      timestamp: 2025-09-22T12:19:05.766688658-05:00
+      error: ""
+    - id: deda2d99-d791-4c93-8980-fd460a083f40
+      name: Install Kubernetes Gateway API manifests
+      timestamp: 2025-09-21T19:13:45.803683748-05:00
+      error: ""
+    - id: 9b970d3e-fbf8-44df-a21e-793e9b76f438
+      name: Install istio in ambient mode with an ingress gateway and a default route to the home-cloud server
+      timestamp: 2025-09-21T21:36:18.992269052-05:00
+      error: ""
