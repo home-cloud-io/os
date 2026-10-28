@@ -1,3 +1,5 @@
+# ARCHIVED: The Home Cloud OS is now defined in the [Core repo](https://github.com/home-cloud-io/core)
+
 # os
 
 The Home Cloud Operating System.
